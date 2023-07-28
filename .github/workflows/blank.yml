@@ -4,22 +4,36 @@ on:
     branches: [ "main" ]
   workflow_dispatch:
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - run: echo Test!
   create:
     runs-on: ubuntu-latest
-    needs: test
     if: github.event.created
     steps:
-      - uses: actions/checkout@v3
       - run: echo Created!
-  build:
+  build-backend:
     runs-on: ubuntu-latest
     needs: create
     if: always() && (needs.create.result == 'skipped' || needs.create.result == 'success')
     steps:
-      - uses: actions/checkout@v3
-      - run: echo Build
+      - run: echo Build backend
+  build-frontend:
+    runs-on: ubuntu-latest
+    needs: create
+    if: always() && (needs.create.result == 'skipped' || needs.create.result == 'success')
+    strategy:
+      matrix:
+        include:
+          - project: peugeot
+          - project: peugeot_dealer
+          - project: peugeot_finance
+    steps:
+      - run: echo Build ${{ matrix.project }}
+  e2e-test:
+    runs-on: ubuntu-latest
+    needs: [build-backend, build-frontend]
+    steps:
+      - run: echo Build ${{ matrix.project }}
+  deploy-backend:
+    runs-on: ubuntu-latest
+    needs: [e2e-test, build-backend]
+    steps:
+      - run: echo Deploy backend
