@@ -16,4 +16,4 @@ jobs:
     if: ${{ always() }}
     steps:
       - uses: actions/checkout@v3
-      - run: echo ${{ needs.build.result }}
+      - run: echo ${{ needs.create.result }}
