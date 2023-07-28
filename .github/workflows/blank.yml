@@ -9,10 +9,7 @@ jobs:
     steps:
       - name: created
         run: " [[ '${{ github.event.created }}' == 'false' ]] || exit 0;"
-      - if: steps.created.conclusion == 'failure'
-        run: echo "failure";
-      - if: steps.created.conclusion == 'success'
-        run: echo "success";
+      - run: echo ${{ toJson(steps.created) }}
   build-backend:
     runs-on: ubuntu-latest
     needs: create
