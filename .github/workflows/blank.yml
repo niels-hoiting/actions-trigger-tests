@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: echo ${{ toJson(github.event) }}
+      - run: echo ${{ github.event.created }}
   build:
     runs-on: ubuntu-latest
     needs: create
