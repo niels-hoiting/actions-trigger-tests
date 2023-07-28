@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: created
-        run: " [[ ${{ github.event.created }} == 'false' ]] || exit 0;"
+        run: " [[ '${{ github.event.created }}' == 'false' ]] || exit 0;"
       - if: steps.created.conclusion == 'failure'
         run: echo "failure";
       - if: steps.created.conclusion == 'success'
