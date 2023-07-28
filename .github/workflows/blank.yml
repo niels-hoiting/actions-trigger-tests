@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: created
-        run: " [[ '${{ github.event.created }}' == 'false' ]] || exit 0;"
+        run: " [[ '${{ github.event.created }}' == 'false' ]] || exit 1;"
       - run: echo ${{ toJson(steps.created) }}
   build-backend:
     runs-on: ubuntu-latest
