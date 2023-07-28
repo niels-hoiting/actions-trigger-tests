@@ -4,8 +4,14 @@ on:
     branches: [ "main" ]
   workflow_dispatch:
 jobs:
+  test:
+    runs-on: ubuntu-lasest
+    steps:
+      - uses: actions/checkout@v3
+      - run: echo Test!
   create:
     runs-on: ubuntu-lasest
+    needs: test
     if: github.event.created
     steps:
       - uses: actions/checkout@v3
@@ -16,4 +22,4 @@ jobs:
     if: always() && (needs.create.result == 'skipped' || needs.create.result == 'success')
     steps:
       - uses: actions/checkout@v3
-      - run: echo ${{ needs.create.result }}
+      - run: echo Build
